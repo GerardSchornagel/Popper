@@ -3,12 +3,8 @@ import QtQuick 2.0
 
 GameWindow {
     id: gameWindow
-
-    // You get free licenseKeys from https://v-play.net/licenseKey
-    //licenseKey: "<generate one from https://v-play.net/licenseKey>"
-
     activeScene: scene
-
+    //licenseKey: "<generate one from https://v-play.net/licenseKey>"
     screenWidth: 640
     screenHeight: 960
 
@@ -70,6 +66,20 @@ GameWindow {
         }
     }
 
+    PhysicsWorld {
+        id: physicsWorld
+        debugDrawVisible: false
+        updatesPerSecondForPhysics: 60
+        velocityIterations: 5
+        positionIterations: 5
+
+        EntityManager{
+            id: entityManager
+            entityContainer: scene
+            dynamicCreationEntityList: [componentEntities]
+        }
+    }
+
     Scene {
         id: scene
         width: 320
@@ -79,6 +89,23 @@ GameWindow {
             id: background
             anchors.fill: parent
             color: "#C0C0C0"
+        }
+
+        Timer {
+            id: timerSpawn
+            running: true
+            repeat: true
+            interval: Math.floor((Math.random() * 3000) + 1)
+
+            onTriggered: {
+                entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "1"} )            }
+        }
+
+        Text {
+            id: textScore
+            text: "0"
+            x: (parent.width / 2) - (width / 2)
+
         }
     }
 }
