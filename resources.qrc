@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>qml</file>
+        <file>assets/img/bullseye.png</file>
+        <file>assets/img/special.png</file>
+        <file>assets/img/target.png</file>
+        <file>qml/entities/TargetFast.qml</file>
+        <file>qml/entities/TargetIrregular.qml</file>
+        <file>qml/entities/TargetRegular.qml</file>
     </qresource>
 </RCC>

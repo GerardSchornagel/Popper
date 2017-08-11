@@ -1,71 +1,14 @@
 import VPlay 2.0
 import QtQuick 2.0
+import "entities"
 
 GameWindow {
     id: gameWindow
     activeScene: scene
-    licenseKey: "B1B5E382608982FB6A05595442BF9949D0A91C6097D27C8FE36BD049B5C1FDFDD2F56B8D5173E63B8F8374C2259D1B9970EBB1313083D64B1A0A280DA26323E4495F8FFC391BA39A70FCFE3288F4C752B10A4671C6F02B952B1B564DE77C76572B45B1EAFB6A839D8B3381B36BCD71A595E32158DF609770E83ECD1772F860F00A080FDDAA75D5ABCA92A6D7AF1F51A1768978F835DADC8891E50A4A79450C7A6CD2C6557750B002764FB13EAFD626A1F99596DFBCA1D32543A2278ACC6A0F07E08B1340D98BE95A22BA22F94EB4F78ABEBAEB9D514417FDC783D247ED95D3AC6F7C32E52388BDD4F12369BF2BFEF57BCBEF5C1F4BFC35F60E3C445ABB139F465C4CA48385BD7A38812E38C6DC964BB85FE26323C880147928AE1B1A272ABAE97C84B460A49F682B5940DA50DE490E02"
+    licenseKey: "CBB2C1E515EF777FE6D3579A7FF21F4331EBCAF8B76D8986405CEC5D4210FC5EE3D34A4D11841224B81686393E428B731D91BBE036699C6CCDD12107B80F0753E5E1129D70A8624106C2A15528E9E80CC50239A17DAA89FEBD86978F8B419649CB7E3AEFEC9EDF5574EA5FE651203086C3049131AC45351F445C6EA2127F53E344AD1F1378BA3394B9D081C5EF3868F655EDE0F854ABD63D313CF72E0BC1DF150E4AB6AB474C2F46CF7EB02D9B2A8F286CD680CF0D63313AB0144CD9FCCA5C7BA0A95489E439597FBD1510E0BDB4F4943425C829CF68D8D9708C9585AD0B148E68C8C5BB3101EB9976ACF73DAEE39D01C9EA79586EDF75FDCB5AE8A809ED1E789B11B6DE36EDF66B6945B51C8E91AB6425E8564183F3FDD236C4BC85BA699EE07D72E982581E3320F77268BCE8F59F83"
 
     screenWidth: 640
     screenHeight: 960
-
-    Component   {
-        id: componentEntities
-
-        EntityBase {
-            entityType: "1"
-
-            width: 32
-            height: 32
-            x: 160
-            y: 240
-
-            property int horizontalSpeed: Math.floor((Math.random() * 90) + 1)
-            property bool horizontalAxis: Math.round(Math.random())
-            property int verticalSpeed: Math.floor((Math.random() * 90) + 1)
-            property bool verticalAxis: Math.round(Math.random())
-            property int totalSpeed: horizontalSpeed + verticalSpeed
-            property int pointScore: Math.round(totalSpeed / 10)
-            property int pointScore2: 0
-
-            BoxCollider {
-                id: boxCollider
-                bodyType: Body.Dynamic
-                x: -width/2
-                y: -height/2
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: boxCollider
-                onClicked: {
-                    parent.pointScore2 = textScore.text
-                    textScore.text = (parent.pointScore + parent.pointScore2).toString()
-                    parent.visible = false
-                }
-            }
-
-            Image {
-                id: boxImage
-                anchors.fill: boxCollider
-                source: "../assets/img/target.png"
-            }
-
-            Timer {
-                id: moveEntity
-                running: true
-                repeat: true
-                interval: 100
-
-                onTriggered: {
-                    if (parent.horizontalAxis == true) { parent.x += parent.horizontalSpeed / 10 }
-                    if (parent.horizontalAxis == false) { parent.x -= parent.horizontalSpeed / 10 }
-                    if (parent.verticalAxis == true) { parent.y += parent.verticalSpeed / 10 }
-                    if (parent.verticalAxis == false) { parent.y -= parent.verticalSpeed / 10 }
-                }
-            }
-        }
-    }
 
     PhysicsWorld {
         id: physicsWorld
@@ -77,7 +20,11 @@ GameWindow {
         EntityManager{
             id: entityManager
             entityContainer: scene
-            dynamicCreationEntityList: [componentEntities]
+            dynamicCreationEntityList: [
+                Qt.resolvedUrl("entities/TargetRegular.qml"),
+                Qt.resolvedUrl("entities/TargetFast.qml"),
+                Qt.resolvedUrl("entities/TargetIrregular.qml")
+            ]
         }
     }
 
@@ -88,24 +35,213 @@ GameWindow {
 
         Rectangle {
             id: background
+            gradient: Gradient {
+                GradientStop {
+                    position: 0
+                    color: "#000000"
+                }
+
+                GradientStop {
+                    position: 0.5
+                    color: "#001985"
+                }
+
+                GradientStop {
+                    position: 1
+                    color: "#000000"
+                }
+
+            }
             anchors.fill: parent
-            color: "#C0C0C0"
+
+            Rectangle {
+                id: recRegular
+                x: 8
+                y: 417
+                width: 94
+                height: 55
+                color: "#ffffff"
+                border.width: 2
+                border.color: "#435b12"
+
+                Text {
+                    id: txtLabelRegular
+                    x: 0
+                    y: 0
+                    width: 94
+                    height: 55
+                    text: qsTr("Regular")
+                    font.family: "Times New Roman"
+                    fontSizeMode: Text.HorizontalFit
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 12
+                }
+
+                MouseArea {
+                    id: clkRegular
+                    width: parent.width
+                    height: parent.height
+                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
+                }
+            }
+
+            Rectangle {
+                id: recFast
+                x: 113
+                y: 417
+                width: 94
+                height: 55
+                color: "#ffffff"
+                border.width: 2
+                border.color: "#435b12"
+                Text {
+                    id: txtLabelFast
+                    x: 0
+                    y: 0
+                    width: 94
+                    height: 55
+                    text: qsTr("Fast")
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 12
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.HorizontalFit
+                    font.family: "Times New Roman"
+                }
+
+                MouseArea {
+                    id: clkFast
+                    x: 0
+                    y: 0
+                    width: parent.width
+                    height: parent.height
+                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
+                }
+            }
+
+            Rectangle {
+                id: recIrregular
+                x: 218
+                y: 417
+                width: 94
+                height: 55
+                color: "#ffffff"
+                border.width: 2
+                border.color: "#435b12"
+                Text {
+                    id: txtLabelIrregular
+                    x: 0
+                    y: 0
+                    width: 94
+                    height: 55
+                    text: qsTr("Irregular")
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 12
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.HorizontalFit
+                    font.family: "Times New Roman"
+                }
+
+                MouseArea {
+                    id: clkIrregular
+                    x: 0
+                    y: 0
+                    width: parent.width
+                    height: parent.height
+                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                }
+
+            }
+
+            Rectangle {
+                id: recStart
+                x: 8
+                y: 8
+                width: 94
+                height: 55
+                color: "#b2fc68"
+                border.width: 2
+                border.color: "#435b12"
+                Text {
+                    id: txtLabelStart
+                    x: 0
+                    y: 0
+                    width: 94
+                    height: 55
+                    text: qsTr("Start")
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 12
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.HorizontalFit
+                    font.family: "Times New Roman"
+                }
+
+                MouseArea {
+                    id: clkStart
+                    width: parent.width
+                    height: parent.height
+                    onClicked: { timerSpawn.running = true }
+                }
+            }
+
+            Rectangle {
+                id: recStop
+                x: 218
+                y: 8
+                width: 94
+                height: 55
+                color: "#f96f6f"
+                border.width: 2
+                border.color: "#435b12"
+                Text {
+                    id: txtLabelStop
+                    x: 0
+                    y: 0
+                    width: 94
+                    height: 55
+                    text: qsTr("Stop")
+                    horizontalAlignment: Text.AlignHCenter
+                    font.pixelSize: 12
+                    verticalAlignment: Text.AlignVCenter
+                    fontSizeMode: Text.HorizontalFit
+                    font.family: "Times New Roman"
+                }
+
+                MouseArea {
+                    id: clkStop
+                    width: parent.width
+                    height: parent.height
+                    onClicked: { timerSpawn.running = false }
+                }
+            }
         }
 
         Timer {
             id: timerSpawn
-            running: true
+            running: false
             repeat: true
-            interval: Math.floor((Math.random() * 3000) + 1)
+            interval: Math.floor((Math.random() * 3000) + 500)
 
             onTriggered: {
-                entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "1"} )            }
+                var intChance = Math.floor((Math.random() * 100) + 1)
+                if (intChance == 100) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance == 99) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance == 98) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance == 97) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance == 96) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance == 95) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
+                if (intChance < 70) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
+                if (intChance > 70) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
+            }
         }
 
         Text {
             id: textScore
             text: "0"
+            font.pointSize: 16
             x: (parent.width / 2) - (width / 2)
+            y: 8
+            color: "#ff0000"
 
         }
     }
