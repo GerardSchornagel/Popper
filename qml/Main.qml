@@ -216,22 +216,20 @@ GameWindow {
             }
         }
 
+        Item {
+            id: arrayChance
+            property variant aEntityType: ["regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "irregular", "irregular", "irregular", "irregular", "irregular"] //70%regular 25%fast 5%irregular
+        }
+
         Timer {
             id: timerSpawn
             running: false
             repeat: true
-            interval: Math.floor((Math.random() * 3000) + 500)
+            interval: 1500
 
             onTriggered: {
-                var intChance = Math.floor((Math.random() * 100) + 1)
-                if (intChance == 100) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance == 99) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance == 98) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance == 97) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance == 96) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance == 95) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                if (intChance < 70) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
-                if (intChance > 70) { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
+                entityManager.createEntityFromEntityTypeAndVariationType({ entityType: arrayChance.aEntityType[Math.round((Math.random() * arrayChance.aEntityType.length))].toString() })
+                interval = Math.floor((Math.random() * 1500) + 750)
             }
         }
 
