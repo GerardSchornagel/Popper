@@ -47,4 +47,9 @@ DISTFILES += \
     qml/entities/TargetRegular.qml \
     qml/entities/TargetFast.qml \
     qml/entities/TargetIrregular.qml \
-    qml/Main.qml
+    qml/Main.qml \
+    qml/scenes/SceneGame.qml \
+    qml/scenes/SceneMenu.qml \
+    qml/common/SceneBase.qml \
+    qml/common/MenuButton.qml \
+    qml/common/TargetBase.qml

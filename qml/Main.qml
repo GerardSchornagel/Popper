@@ -1,12 +1,10 @@
 import VPlay 2.0
 import QtQuick 2.0
-import "entities"
+import "scenes"
 
 GameWindow {
-    id: gameWindow
-    activeScene: scene
-    licenseKey: "CBB2C1E515EF777FE6D3579A7FF21F4331EBCAF8B76D8986405CEC5D4210FC5EE3D34A4D11841224B81686393E428B731D91BBE036699C6CCDD12107B80F0753E5E1129D70A8624106C2A15528E9E80CC50239A17DAA89FEBD86978F8B419649CB7E3AEFEC9EDF5574EA5FE651203086C3049131AC45351F445C6EA2127F53E344AD1F1378BA3394B9D081C5EF3868F655EDE0F854ABD63D313CF72E0BC1DF150E4AB6AB474C2F46CF7EB02D9B2A8F286CD680CF0D63313AB0144CD9FCCA5C7BA0A95489E439597FBD1510E0BDB4F4943425C829CF68D8D9708C9585AD0B148E68C8C5BB3101EB9976ACF73DAEE39D01C9EA79586EDF75FDCB5AE8A809ED1E789B11B6DE36EDF66B6945B51C8E91AB6425E8564183F3FDD236C4BC85BA699EE07D72E982581E3320F77268BCE8F59F83"
-
+    id: window
+    licenseKey: "FB9A2A644F4D76B6BECD0C3CFE1DB33EF16A3B69FC85DF78CB7488948F55A9B8DB6AEB9D26A778D83569B4B33B09EF96AF45A37296059593A358C28EC0938768D530D3F30FC67374C5F0C8A1C3343523D6D4DE76FB4302523EDAA0AFFBF2D0283CC68EE4993ACC98DCECD57434F6C22C800E26FAEA39469140358697A2A7BBEEAC7B51CB5B7B6366D54957602E6AEEE03F864ABB25C231668D5809D2FD20C2F841938E00450D3862C5E66A93C9A80A61D9690CBCAEBF86F366A851F32B88B15EFCC73721988533828ADFEB80E8468557A94407A627E5D2F24FBFD213AAF1BD68BCFC5DE422717DF365AE4B8317680E51DEA287C9B87C4440689F4412DADE36680498A7DB453D0E3FDE06648DF7E508F2ACD6F9540B3292E0E3801696EAE99EABBD3CD4F294E6DA2161B9A9E35943263D"
     screenWidth: 640
     screenHeight: 960
 
@@ -16,231 +14,46 @@ GameWindow {
         updatesPerSecondForPhysics: 60
         velocityIterations: 5
         positionIterations: 5
+    }
 
-        EntityManager{
-            id: entityManager
-            entityContainer: scene
-            dynamicCreationEntityList: [
-                Qt.resolvedUrl("entities/TargetRegular.qml"),
-                Qt.resolvedUrl("entities/TargetFast.qml"),
-                Qt.resolvedUrl("entities/TargetIrregular.qml")
-            ]
+    EntityManager {
+        id: eManagerMenu
+        entityContainer: sceneMenu
+    }
+
+    SceneMenu {
+        id: sceneMenu
+        onSignalNewGame: window.state = "game"
+        onBackButtonPressed: { nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2) }
+
+        // Messagebox Handler
+        Connections {
+            target: nativeUtils
+            onMessageBoxFinished: { if(accepted && window.activeScene === sceneMenu) {Qt.quit()} }
         }
     }
 
-    Scene {
-        id: scene
-        width: 320
-        height: 480
-
-        Rectangle {
-            id: background
-            gradient: Gradient {
-                GradientStop {
-                    position: 0
-                    color: "#000000"
-                }
-
-                GradientStop {
-                    position: 0.5
-                    color: "#001985"
-                }
-
-                GradientStop {
-                    position: 1
-                    color: "#000000"
-                }
-
-            }
-            anchors.fill: parent
-
-            Rectangle {
-                id: recRegular
-                x: 8
-                y: 417
-                width: 94
-                height: 55
-                color: "#ffffff"
-                border.width: 2
-                border.color: "#435b12"
-
-                Text {
-                    id: txtLabelRegular
-                    x: 0
-                    y: 0
-                    width: 94
-                    height: 55
-                    text: qsTr("Regular")
-                    font.family: "Times New Roman"
-                    fontSizeMode: Text.HorizontalFit
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 12
-                }
-
-                MouseArea {
-                    id: clkRegular
-                    width: parent.width
-                    height: parent.height
-                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
-                }
-            }
-
-            Rectangle {
-                id: recFast
-                x: 113
-                y: 417
-                width: 94
-                height: 55
-                color: "#ffffff"
-                border.width: 2
-                border.color: "#435b12"
-                Text {
-                    id: txtLabelFast
-                    x: 0
-                    y: 0
-                    width: 94
-                    height: 55
-                    text: qsTr("Fast")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 12
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.HorizontalFit
-                    font.family: "Times New Roman"
-                }
-
-                MouseArea {
-                    id: clkFast
-                    x: 0
-                    y: 0
-                    width: parent.width
-                    height: parent.height
-                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
-                }
-            }
-
-            Rectangle {
-                id: recIrregular
-                x: 218
-                y: 417
-                width: 94
-                height: 55
-                color: "#ffffff"
-                border.width: 2
-                border.color: "#435b12"
-                Text {
-                    id: txtLabelIrregular
-                    x: 0
-                    y: 0
-                    width: 94
-                    height: 55
-                    text: qsTr("Irregular")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 12
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.HorizontalFit
-                    font.family: "Times New Roman"
-                }
-
-                MouseArea {
-                    id: clkIrregular
-                    x: 0
-                    y: 0
-                    width: parent.width
-                    height: parent.height
-                    onClicked: { entityManager.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-                }
-
-            }
-
-            Rectangle {
-                id: recStart
-                x: 8
-                y: 8
-                width: 94
-                height: 55
-                color: "#b2fc68"
-                border.width: 2
-                border.color: "#435b12"
-                Text {
-                    id: txtLabelStart
-                    x: 0
-                    y: 0
-                    width: 94
-                    height: 55
-                    text: qsTr("Start")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 12
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.HorizontalFit
-                    font.family: "Times New Roman"
-                }
-
-                MouseArea {
-                    id: clkStart
-                    width: parent.width
-                    height: parent.height
-                    onClicked: { timerSpawn.running = true }
-                }
-            }
-
-            Rectangle {
-                id: recStop
-                x: 218
-                y: 8
-                width: 94
-                height: 55
-                color: "#f96f6f"
-                border.width: 2
-                border.color: "#435b12"
-                Text {
-                    id: txtLabelStop
-                    x: 0
-                    y: 0
-                    width: 94
-                    height: 55
-                    text: qsTr("Stop")
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 12
-                    verticalAlignment: Text.AlignVCenter
-                    fontSizeMode: Text.HorizontalFit
-                    font.family: "Times New Roman"
-                }
-
-                MouseArea {
-                    id: clkStop
-                    width: parent.width
-                    height: parent.height
-                    onClicked: { timerSpawn.running = false }
-                }
-            }
-        }
-
-        Item {
-            id: arrayChance
-            property variant aEntityType: ["regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "irregular", "irregular", "irregular", "irregular", "irregular"] //70%regular 25%fast 5%irregular
-        }
-
-        Timer {
-            id: timerSpawn
-            running: false
-            repeat: true
-            interval: 1500
-
-            onTriggered: {
-                entityManager.createEntityFromEntityTypeAndVariationType({ entityType: arrayChance.aEntityType[Math.round((Math.random() * arrayChance.aEntityType.length))].toString() })
-                interval = Math.floor((Math.random() * 1500) + 750)
-            }
-        }
-
-        Text {
-            id: textScore
-            text: "0"
-            font.pointSize: 16
-            x: (parent.width / 2) - (width / 2)
-            y: 8
-            color: "#ff0000"
-
-        }
+    // game scene to play a level
+    SceneGame {
+        id: sceneGame
+        onBackButtonPressed: window.state = "menu"
     }
+
+    // menuScene is our first scene, so set the state to menu initially
+    state: "menu"
+    activeScene: sceneMenu
+
+    // state machine, takes care reversing the PropertyChanges when changing the state, like changing the opacity back to 0
+    states: [
+        State {
+            name: "menu"
+            PropertyChanges {target: sceneMenu; opacity: 1}
+            PropertyChanges {target: window; activeScene: sceneMenu}
+        },
+        State {
+            name: "game"
+            PropertyChanges {target: sceneGame; opacity: 1}
+            PropertyChanges {target: window; activeScene: sceneGame}
+        }
+    ]
 }
