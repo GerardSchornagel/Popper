@@ -5,8 +5,6 @@ import "../common"
 
 SceneBase {
     id: sceneGame
-    width: 320
-    height: 480
 
     EntityManager {
         id: eManagerGame
@@ -20,6 +18,7 @@ SceneBase {
 
     Rectangle {
         id: background
+        z: 0 //background
         gradient: Gradient {
             GradientStop {
                 position: 0
@@ -38,6 +37,16 @@ SceneBase {
 
         }
         anchors.fill: parent
+    }
+
+    Image {
+        id: cockpit
+        x: 0
+        y: 0
+        anchors.fill: parent
+        z: 4 //Game overlay
+        visible: true
+        source: "../../assets/img/cockpitEasy.png"
     }
 
     MenuButton {
@@ -131,6 +140,7 @@ SceneBase {
         font.pointSize: 16
         x: (parent.width / 2) - (width / 2)
         y: 8
+        z: 5 //Game Notifications
         color: "#ff0000"
     }
 }

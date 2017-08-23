@@ -8,6 +8,7 @@ EntityBase {
     height: 32
     x: 160
     y: 240
+    z: 3 //Game object
 
     property alias imageSrc: boxImage.source
     property alias movementEntity: moveEntity
@@ -30,7 +31,7 @@ EntityBase {
         onClicked: {
             pointScore2 = textScore.text
             textScore.text = (pointScore + pointScore2).toString()
-            parent.visible = false
+            parent.removeEntity()
         }
     }
 
@@ -45,15 +46,11 @@ EntityBase {
             if (parent.horizontalAxis === false) { parent.x -= parent.horizontalSpeed / 15 }
             if (parent.verticalAxis === true) { parent.y += parent.verticalSpeed / 15 }
             if (parent.verticalAxis === false) { parent.y -= parent.verticalSpeed / 15 }
+
+            if (parent.x >= 320) {parent.removeEntity()}
+            if (parent.x <= 0) {parent.removeEntity()}
+            if (parent.y >= 355) {parent.removeEntity()}
+            if (parent.y <= 0) {parent.removeEntity()}
         }
-    }
-
-    Timer {
-        id: retireEntity
-        running: true
-        repeat: false
-        interval: 5500
-
-        onTriggered: { parent.visible = false }
     }
 }

@@ -8,6 +8,7 @@ Rectangle {
 
     color: "#060942" //Dark Blue
     radius: 8
+    z: 6 //UI
 
     property int paddingHorizontal: 10
     property int paddingVertical: 5

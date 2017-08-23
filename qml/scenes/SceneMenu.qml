@@ -8,6 +8,7 @@ Scene {
     signal signalNewGame
 
     Rectangle {
+        z: 0 //background
         anchors.fill: parent.gameWindowAnchorItem
         color: "#47688e"
     }
@@ -15,6 +16,7 @@ Scene {
     Text {
         anchors.horizontalCenter: parent.horizontalCenter
         y: 30
+        z: 6 //UI
         font.pixelSize: 30
         color: "#e9e9e9"
         text: "Main Menu"
