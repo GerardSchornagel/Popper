@@ -49,71 +49,78 @@ SceneBase {
         source: "../../assets/img/cockpitEasy.png"
     }
 
-    MenuButton {
-        id: recRegular
-        x: 8
-        y: 417
+    Row {
+        id: rowDevelop
+        anchors.bottom: parent.bottom
+        spacing: 2
+        z: 6//UI
 
-        bgColor: "#ffffff"
-        text: qsTr("Regular")
-        fgColor: "#000000"
-        onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
+        MenuButton {
+            id: recStart
+
+            bgColor: "#ffffff"
+            text: qsTr("Start")
+            fgColor: "#000000"
+            onClicked: { timerSpawn.running = true }
+        }
+
+
+        MenuButton {
+            id: recStop
+
+            bgColor: "#ffffff"
+            text: qsTr("Stop")
+            fgColor: "#000000"
+            onClicked: {timerSpawn.running = false}
+        }
+
+        MenuButton {
+            id: recMenu
+
+            bgColor: "#ffffff"
+            text: qsTr("Menu")
+            fgColor: "#000000"
+            onClicked: {
+                timerSpawn.running = false
+                eManagerGame.removeAllEntities()
+                backButtonPressed()
+            }
+        }
+
     }
 
-    MenuButton {
-        id: recFast
-        x: 113
-        y: 417
+    Row {
+        id: rowSpawn
 
-        bgColor: "#ffffff"
-        text: qsTr("Fast")
-        fgColor: "#000000"
-        onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
-    }
+        anchors.bottom: rowDevelop.top
+        spacing: 2
+        z: 6//UI
 
-    MenuButton {
-        id: recIrregular
-        x: 218
-        y: 417
-        bgColor: "#ffffff"
-        text: qsTr("Irregular")
-        fgColor: "#000000"
-        onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
-    }
+        MenuButton {
+            id: recRegular
 
-    MenuButton {
-        id: recStart
-        x: 8
-        y: 8
+            bgColor: "#ffffff"
+            text: qsTr("Regular")
+            fgColor: "#000000"
+            onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
+        }
 
-        bgColor: "#ffffff"
-        text: qsTr("Start")
-        fgColor: "#000000"
-        onClicked: { timerSpawn.running = true }
-    }
+        MenuButton {
+            id: recFast
 
-    MenuButton {
-        id: recStop
-        x: 218
-        y: 8
+            bgColor: "#ffffff"
+            text: qsTr("Fast")
+            fgColor: "#000000"
+            onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
+        }
 
-        bgColor: "#ffffff"
-        text: qsTr("Stop")
-        fgColor: "#000000"
-        onClicked: { timerSpawn.running = false }
-    }
+        MenuButton {
+            id: recIrregular
 
-    MenuButton {
-        id: recMenu
-        x: 114
-        y: 41
-
-        bgColor: "#ffffff"
-        text: qsTr("Menu")
-        fgColor: "#000000"
-        onClicked: {
-            timerSpawn.running = false
-            backButtonPressed()
+            bgColor: "#ffffff"
+            text: qsTr("Irregular")
+            fgColor: "#000000"
+            onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "irregular"} ) }
         }
     }
 
@@ -130,7 +137,7 @@ SceneBase {
 
         onTriggered: {
             eManagerGame.createEntityFromEntityTypeAndVariationType({ entityType: arrayChance.aEntityType[Math.round((Math.random() * arrayChance.aEntityType.length))].toString() })
-            interval = Math.floor((Math.random() * 1500) + 750)
+            interval = Math.floor((Math.random() * 1000) + 500)
         }
     }
 

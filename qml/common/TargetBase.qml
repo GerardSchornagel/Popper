@@ -51,6 +51,11 @@ EntityBase {
             if (parent.x <= 0) {parent.removeEntity()}
             if (parent.y >= 355) {parent.removeEntity()}
             if (parent.y <= 0) {parent.removeEntity()}
+
+            parent.totalSpeed = parent.totalSpeed * 1.2
+            parent.horizontalSpeed = (parent.percentageAxis / 100) * parent.totalSpeed // Match horizontalSpeed to percentageAxis.
+            parent.verticalSpeed = ((100 - parent.percentageAxis) / 100) * parent.totalSpeed // 100% minus percentageAxis makes the verticalSpeed.
+
         }
     }
 }

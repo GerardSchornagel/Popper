@@ -23,6 +23,7 @@ Rectangle {
         id: buttonText
         anchors.centerIn: parent
         font.pixelSize: 20
+
         color: "#FFFFFF"
     }
 
