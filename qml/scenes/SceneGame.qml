@@ -6,6 +6,8 @@ import "../common"
 SceneBase {
     id: sceneGame
 
+    property bool boolWeapon01: true
+
     EntityManager {
         id: eManagerGame
         entityContainer: sceneGame
@@ -14,6 +16,16 @@ SceneBase {
             Qt.resolvedUrl("../entities/TargetFast.qml"),
             Qt.resolvedUrl("../entities/TargetIrregular.qml")
         ]
+    }
+
+    MouseArea {
+        id: mouseareaField
+        anchors.fill: parent
+        onClicked: {
+            if (boolWeapon01 === true) {
+                timerWeapon01.running = true
+            }
+        }
     }
 
     Rectangle {
@@ -47,6 +59,45 @@ SceneBase {
         z: 4 //Game overlay
         visible: true
         source: "../../assets/img/cockpitEasy.png"
+    }
+
+    Row {
+        id: rowHeader
+
+        anchors.top: parent.top
+        height: 50
+        spacing: 5
+        z: 5//Game Notification
+
+        Text {
+            id: textScore
+            text: "0"
+            font.pointSize: 16
+            font.bold: true
+            color: "#ff0000"
+        }
+
+        Rectangle {
+            id: recWeapon01
+
+            height: rowHeader.height
+            width: 50
+            border.color: "#000000"
+            color: "#c71313"
+
+            Text {
+                id: textWeapon01
+                anchors.centerIn: recWeapon01
+                height: parent.height
+                width: parent.width
+
+                text: qsTr("01")
+                color: "#FFFFFF"
+                font.pointSize: 256
+                minimumPixelSize: 10
+                fontSizeMode: Text.Fit
+            }
+        }
     }
 
     Row {
@@ -130,6 +181,25 @@ SceneBase {
     }
 
     Timer {
+        id: timerWeapon01
+        running: false
+        repeat: false
+        interval: 1000
+
+        onRunningChanged: {
+            if (timerWeapon01.running === true) {
+                recWeapon01.color = "#824141"
+                boolWeapon01 = false
+            }
+        }
+
+        onTriggered: {
+            recWeapon01.color = "#c71313"
+            boolWeapon01 = true
+        }
+    }
+
+    Timer {
         id: timerSpawn
         running: false
         repeat: true
@@ -139,15 +209,5 @@ SceneBase {
             eManagerGame.createEntityFromEntityTypeAndVariationType({ entityType: arrayChance.aEntityType[Math.round((Math.random() * arrayChance.aEntityType.length))].toString() })
             interval = Math.floor((Math.random() * 1000) + 500)
         }
-    }
-
-    Text {
-        id: textScore
-        text: "0"
-        font.pointSize: 16
-        x: (parent.width / 2) - (width / 2)
-        y: 8
-        z: 5 //Game Notifications
-        color: "#ff0000"
     }
 }

@@ -9,7 +9,7 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-RESOURCES += #resources.qrc # uncomment for publishing
+#RESOURCES += resources.qrc # uncomment for publishing
 
 # NOTE: for PUBLISHING, perform the following steps:
 # 1. comment the DEPLOYMENTFOLDERS += qmlFolder line above, to avoid shipping your qml files with the application (instead they get compiled to the app binary)
@@ -44,12 +44,3 @@ macx {
 }
 
 DISTFILES += \
-    qml/entities/TargetRegular.qml \
-    qml/entities/TargetFast.qml \
-    qml/entities/TargetIrregular.qml \
-    qml/Main.qml \
-    qml/scenes/SceneGame.qml \
-    qml/scenes/SceneMenu.qml \
-    qml/common/SceneBase.qml \
-    qml/common/MenuButton.qml \
-    qml/common/TargetBase.qml

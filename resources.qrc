@@ -7,5 +7,11 @@
         <file>qml/entities/TargetFast.qml</file>
         <file>qml/entities/TargetIrregular.qml</file>
         <file>qml/entities/TargetRegular.qml</file>
+        <file>qml/common/MenuButton.qml</file>
+        <file>qml/common/SceneBase.qml</file>
+        <file>qml/common/TargetBase.qml</file>
+        <file>qml/scenes/SceneGame.qml</file>
+        <file>qml/scenes/SceneMenu.qml</file>
+        <file>assets/img/cockpitEasy.png</file>
     </qresource>
 </RCC>

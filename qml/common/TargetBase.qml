@@ -29,9 +29,12 @@ EntityBase {
         id: mouseArea
         anchors.fill: boxCollider
         onClicked: {
-            pointScore2 = textScore.text
-            textScore.text = (pointScore + pointScore2).toString()
-            parent.removeEntity()
+            if (boolWeapon01 === true) {
+                timerWeapon01.running = true
+                pointScore2 = textScore.text
+                textScore.text = (pointScore + pointScore2).toString()
+                parent.removeEntity()
+            }
         }
     }
 
