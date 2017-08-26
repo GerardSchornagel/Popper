@@ -30,8 +30,8 @@ EntityBase {
         anchors.fill: boxCollider
         onClicked: {
             if (boolWeapon01 === true) {
-                weaponFire01.play()
-                targetExplosion.start()
+                sfx.weaponFire01()
+                sfx.targetExplosion()
                 timerWeapon01.running = true
                 pointScore2 = textScore.text
                 textScore.text = (pointScore + pointScore2).toString()

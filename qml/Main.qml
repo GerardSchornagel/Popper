@@ -2,6 +2,7 @@ import VPlay 2.0
 import QtQuick 2.0
 import QtMultimedia 5.0
 import "scenes"
+import "common"
 
 GameWindow {
     id: window
@@ -17,21 +18,9 @@ GameWindow {
         positionIterations: 5
     }
 
-    Item {
-        id: musicCollection
+    SoundSFX { id: sfx }
 
-        BackgroundMusic {
-            id: bgmusicLevel1
-            source: "../assets/snd/music/level1.wav"
-            autoPlay: false
-        }
-
-        BackgroundMusic {
-            id: bgmusicMenu
-            source: "../assets/snd/music/menu.wav"
-            autoPlay: true
-        }
-    }
+    SoundBGM { id: bgm }
 
     EntityManager {
         id: eManagerMenu
@@ -42,9 +31,12 @@ GameWindow {
         id: sceneMenu
         onSignalNewGame: {
             window.state = "game"
-            bgmusicMenu.stop()
-            bgmusicLevel1.play()
+            bgm.menu()
+            bgm.level01()
         }
+
+        onSignalMusic: { bgm.mute() }
+        onSignalSound: { sfx.mute() }
         onBackButtonPressed: { nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2) }
 
         // Messagebox Handler
@@ -59,8 +51,8 @@ GameWindow {
         id: sceneGame
         onBackButtonPressed: {
             window.state = "menu"
-            bgmusicLevel1.stop()
-            bgmusicMenu.play()
+            bgm.level01()
+            bgm.menu()
         }
     }
 

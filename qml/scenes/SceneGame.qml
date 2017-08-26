@@ -18,37 +18,12 @@ SceneBase {
         ]
     }
 
-    Item {
-        id: soundCollection
-
-        SoundEffectVPlay {
-            id: weaponFire01
-            source: "../../assets/snd/sfx/weaponFire01.wav"
-            loops: 1
-        }
-
-        SoundEffectVPlay {
-            id: soundTargetExplosion
-            source: "../../assets/snd/sfx/explosion.wav"
-            loops: 1
-        }
-
-        Timer {
-            id: targetExplosion
-            running: false
-            repeat: false
-            interval: 100
-
-            onTriggered: { soundTargetExplosion.play() }
-        }
-    }
-
     MouseArea {
         id: mouseareaField
         anchors.fill: parent
         onClicked: {
             if (boolWeapon01 === true) {
-                weaponFire01.play()
+                sfx.weaponFire01()
                 timerWeapon01.running = true
             }
         }
