@@ -44,3 +44,8 @@ macx {
 }
 
 DISTFILES += \
+    qml/levels/level01.qml \
+    qml/levels/CurrentLevel.qml \
+    qml/levels/Level02.qml \
+    qml/levels/Level03.qml \
+    qml/levels/Level04.qml

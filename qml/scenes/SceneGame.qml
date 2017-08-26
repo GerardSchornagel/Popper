@@ -2,11 +2,14 @@ import VPlay 2.0
 import QtQuick 2.0
 import "../entities"
 import "../common"
+import "../levels"
 
 SceneBase {
     id: sceneGame
 
     property bool boolWeapon01: true
+    property int intGoalValue: textGoalValue.text
+    property int intScoreValue: textScoreValue.text
 
     EntityManager {
         id: eManagerGame
@@ -63,25 +66,67 @@ SceneBase {
     }
 
     Row {
-        id: rowHeader
+        id: rowScore
 
         anchors.top: parent.top
-        height: 50
-        spacing: 5
-        z: 5//Game Notification
+        height: 20
+        spacing: 1
+        z: 5
 
         Text {
-            id: textScore
-            text: "0"
+            id: textScoreName
+            text: "Score: "
             font.pointSize: 16
             font.bold: true
             color: "#ff0000"
         }
 
+        Text {
+            id: textScoreValue
+            text: "0"
+            font.pointSize: 16
+            font.bold: true
+            color: "#ff0000"
+        }
+    }
+
+    Row {
+        id: rowGoal
+
+        anchors.top: rowScore.bottom
+        height: 20
+        spacing: 1
+        z: 5
+
+        Text {
+            id: textGoalName
+            text: "Goal: "
+            font.pointSize: 16
+            font.bold: true
+            color: "#ff0000"
+        }
+
+        Text {
+            id: textGoalValue
+            text: currentLevel.intGoal
+            font.pointSize: 16
+            font.bold: true
+            color: "#ff0000"
+        }
+    }
+
+    Row {
+        id: rowWeapons
+
+        anchors.top: rowGoal.bottom
+        height: 54
+        spacing: 5
+        z: 5
+
         Rectangle {
             id: recWeapon01
 
-            height: rowHeader.height
+            height: 50
             width: 50
             border.color: "#000000"
             color: "#c71313"
@@ -147,6 +192,7 @@ SceneBase {
         anchors.bottom: rowDevelop.top
         spacing: 2
         z: 6//UI
+        visible: false
 
         MenuButton {
             id: recRegular
@@ -176,11 +222,6 @@ SceneBase {
         }
     }
 
-    Item {
-        id: arrayChance
-        property variant aEntityType: ["regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "regular", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "fast", "irregular", "irregular", "irregular", "irregular", "irregular"] //70%regular 25%fast 5%irregular
-    }
-
     Timer {
         id: timerWeapon01
         running: false
@@ -207,8 +248,8 @@ SceneBase {
         interval: 1500
 
         onTriggered: {
-            eManagerGame.createEntityFromEntityTypeAndVariationType({ entityType: arrayChance.aEntityType[Math.round((Math.random() * arrayChance.aEntityType.length))].toString() })
-            interval = Math.floor((Math.random() * 1000) + 500)
+            eManagerGame.createEntityFromEntityTypeAndVariationType({ entityType: currentLevel.arrayEncounters[Math.round((Math.random() * currentLevel.arrayEncounters.length))].toString() })
+            interval = Math.floor((Math.random() * currentLevel.intSpeed) + 500)
         }
     }
 }

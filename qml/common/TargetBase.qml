@@ -33,9 +33,10 @@ EntityBase {
                 sfx.weaponFire01()
                 sfx.targetExplosion()
                 timerWeapon01.running = true
-                pointScore2 = textScore.text
-                textScore.text = (pointScore + pointScore2).toString()
+                pointScore2 = textScoreValue.text
+                textScoreValue.text = (pointScore + pointScore2).toString()
                 parent.removeEntity()
+                if (intScoreValue >= intGoalValue) { backButtonPressed() }
             }
         }
     }
