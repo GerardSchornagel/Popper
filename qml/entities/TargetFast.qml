@@ -6,7 +6,7 @@ TargetBase {
     entityType: "fast"
     imageSrc: "../../assets/img/bullseye.png"
 
-    property int totalSpeed: Math.floor((Math.random() * 50) + 10) // Determine random speed for object.
+    property int totalSpeed: Math.floor((Math.random() * 150) + 10) // Determine random speed for object.
     property int percentageAxis: Math.floor((Math.random() * 100) + 1) // Set a course with a random value between Horizontal and Vertical.
 
     property bool horizontalAxis: Math.round(Math.random()) // Randomly decide to go positive or negative on Axis.

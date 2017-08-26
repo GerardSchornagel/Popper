@@ -1,5 +1,6 @@
 import VPlay 2.0
 import QtQuick 2.0
+import QtMultimedia 5.0
 import "scenes"
 
 GameWindow {
@@ -16,6 +17,22 @@ GameWindow {
         positionIterations: 5
     }
 
+    Item {
+        id: musicCollection
+
+        BackgroundMusic {
+            id: bgmusicLevel1
+            source: "../assets/snd/music/level1.wav"
+            autoPlay: false
+        }
+
+        BackgroundMusic {
+            id: bgmusicMenu
+            source: "../assets/snd/music/menu.wav"
+            autoPlay: true
+        }
+    }
+
     EntityManager {
         id: eManagerMenu
         entityContainer: sceneMenu
@@ -23,7 +40,11 @@ GameWindow {
 
     SceneMenu {
         id: sceneMenu
-        onSignalNewGame: window.state = "game"
+        onSignalNewGame: {
+            window.state = "game"
+            bgmusicMenu.stop()
+            bgmusicLevel1.play()
+        }
         onBackButtonPressed: { nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2) }
 
         // Messagebox Handler
@@ -36,7 +57,11 @@ GameWindow {
     // game scene to play a level
     SceneGame {
         id: sceneGame
-        onBackButtonPressed: window.state = "menu"
+        onBackButtonPressed: {
+            window.state = "menu"
+            bgmusicLevel1.stop()
+            bgmusicMenu.play()
+        }
     }
 
     // menuScene is our first scene, so set the state to menu initially
