@@ -7,9 +7,18 @@ import "../levels"
 SceneBase {
     id: sceneGame
 
+    signal gameWon
+
     property bool boolWeapon01: true
     property int intGoalValue: textGoalValue.text
     property int intScoreValue: textScoreValue.text
+
+    onGameWon: {
+        textScoreValue.text = "0"
+        timerSpawn.stop()
+        eManagerGame.removeAllEntities()
+        backButtonPressed()
+    }
 
     EntityManager {
         id: eManagerGame

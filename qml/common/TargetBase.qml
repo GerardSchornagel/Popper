@@ -36,7 +36,9 @@ EntityBase {
                 pointScore2 = textScoreValue.text
                 textScoreValue.text = (pointScore + pointScore2).toString()
                 parent.removeEntity()
-                if (intScoreValue >= intGoalValue) { backButtonPressed() }
+                if (intScoreValue >= intGoalValue) {
+                    sceneGame.gameWon()
+                }
             }
         }
     }
@@ -55,13 +57,12 @@ EntityBase {
 
             if (parent.x >= 320) {parent.removeEntity()}
             if (parent.x <= 0) {parent.removeEntity()}
-            if (parent.y >= 355) {parent.removeEntity()}
+            if (parent.y >= 440) {parent.removeEntity()}
             if (parent.y <= 0) {parent.removeEntity()}
 
             parent.totalSpeed = parent.totalSpeed * 1.075
             parent.horizontalSpeed = (parent.percentageAxis / 100) * parent.totalSpeed // Match horizontalSpeed to percentageAxis.
             parent.verticalSpeed = ((100 - parent.percentageAxis) / 100) * parent.totalSpeed // 100% minus percentageAxis makes the verticalSpeed.
-
         }
     }
 }
