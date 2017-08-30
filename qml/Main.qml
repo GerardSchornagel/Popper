@@ -1,6 +1,7 @@
 import VPlay 2.0
 import QtQuick 2.0
 import QtMultimedia 5.0
+
 import "scenes"
 import "common"
 import "levels"
@@ -25,21 +26,14 @@ GameWindow {
 
     CurrentLevel { id: currentLevel }
 
-    EntityManager {
-        id: eManagerMenu
-        entityContainer: sceneMenu
-    }
+    EntityManager { id: eManagerMenu; entityContainer: sceneMenu }
 
     SceneMenu {
         id: sceneMenu
-        onSignalNewGame: {
-            window.state = "game"
-            bgm.menu()
-            bgm.level01()
+        onSignalLevelSelect: {
+            window.state = "select"
         }
 
-        onSignalMusic: { bgm.mute() }
-        onSignalSound: { sfx.mute() }
         onBackButtonPressed: { nativeUtils.displayMessageBox(qsTr("Really quit the game?"), "", 2) }
 
         // Messagebox Handler
@@ -47,7 +41,11 @@ GameWindow {
             target: nativeUtils
             onMessageBoxFinished: { if(accepted && window.activeScene === sceneMenu) {Qt.quit()} }
         }
+
+
     }
+
+    //Storage { id: offlineStorage }
 
     // game scene to play a level
     SceneGame {
@@ -56,6 +54,17 @@ GameWindow {
             window.state = "menu"
             bgm.level01()
             bgm.menu()
+        }
+    }
+
+    SceneLevelSelect {
+        id: sceneLevelSelect
+        onBackButtonPressed: {window.state = "menu"}
+
+        onSignalNewGame: {
+            window.state = "game"
+            bgm.menu()
+            bgm.level01()
         }
     }
 
@@ -69,6 +78,11 @@ GameWindow {
             name: "menu"
             PropertyChanges {target: sceneMenu; opacity: 1}
             PropertyChanges {target: window; activeScene: sceneMenu}
+        },
+        State {
+            name: "select"
+            PropertyChanges {target: sceneLevelSelect; opacity: 1}
+            PropertyChanges {target: window; activeScene: sceneLevelSelect}
         },
         State {
             name: "game"

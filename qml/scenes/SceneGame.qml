@@ -152,7 +152,7 @@ SceneBase {
         spacing: 2
         z: 6//UI
 
-        MenuButton {
+        ButtonMenu {
             id: recStart
 
             bgColor: "#ffffff"
@@ -162,7 +162,7 @@ SceneBase {
         }
 
 
-        MenuButton {
+        ButtonMenu {
             id: recStop
 
             bgColor: "#ffffff"
@@ -171,7 +171,7 @@ SceneBase {
             onClicked: {timerSpawn.running = false}
         }
 
-        MenuButton {
+        ButtonMenu {
             id: recMenu
 
             bgColor: "#ffffff"
@@ -194,7 +194,7 @@ SceneBase {
         z: 6//UI
         visible: false
 
-        MenuButton {
+        ButtonMenu {
             id: recRegular
 
             bgColor: "#ffffff"
@@ -203,7 +203,7 @@ SceneBase {
             onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "regular"} ) }
         }
 
-        MenuButton {
+        ButtonMenu {
             id: recFast
 
             bgColor: "#ffffff"
@@ -212,7 +212,7 @@ SceneBase {
             onClicked: { eManagerGame.createEntityFromEntityTypeAndVariationType( {entityType: "fast"} ) }
         }
 
-        MenuButton {
+        ButtonMenu {
             id: recIrregular
 
             bgColor: "#ffffff"

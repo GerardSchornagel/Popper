@@ -5,10 +5,7 @@ import "../common"
 Scene {
     id: menuScene
 
-    signal signalNewGame
-    signal signalMusic
-    signal signalSound
-
+    signal signalLevelSelect
 
     Rectangle {
         z: 0 //background
@@ -38,58 +35,52 @@ Scene {
             text: "Main Menu"
         }
 
-        Rectangle { height: 40; width: 40; opacity: 0 }
+        Rectangle { height: 40; width: 40; opacity: 0; anchors.horizontalCenter: parent.horizontalCenter }
 
-        Row {
-            height: 30
-            spacing: 10
-
-            MenuButton {
-                text: "Level 01"
-                onClicked: {
-                    currentLevel.setLevel(1)
-                    signalNewGame()
-                }
-            }
-
-            MenuButton {
-                text: "Level 02"
-                onClicked: {
-                    currentLevel.setLevel(2)
-                    signalNewGame()
-                }
+        ButtonMenu {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Level Select"
+            onClicked: {
+                signalLevelSelect()
             }
         }
 
-        Row {
-            height: 30
-            spacing: 10
-
-            MenuButton {
-                text: "Level 03"
-                onClicked: {
-                    currentLevel.setLevel(3)
-                    signalNewGame()
-                }
-            }
-
-            MenuButton {
-                text: "Level 04"
-                onClicked: {
-                    currentLevel.setLevel(4)
-                    signalNewGame()
-                }
-            }
+        ButtonMenu {
+            id: buttonBGM
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: if (bgm.boolMuted === false) {"Music is On"} else {"Music is Off"}
+            onClicked: bgm.mute()
         }
 
-        MenuButton {
-            text: "Music On/Off"
-            onClicked: signalMusic()
+        SliderVPlay {
+            id: sliderBGM
+            anchors.left: buttonBGM.left
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            anchors.right: buttonBGM.right
+            maximumValue: 1.0
+            minimumValue: 0.0
+            value: bgm.realVolume
+            onValueChanged: { bgm.realVolume = value; bgm.adjustVolume() }
         }
 
-        MenuButton {
-            text: "Sound On/Off"
-            onClicked: signalSound()
+        ButtonMenu {
+            id: buttonSFX
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: if (sfx.boolMuted === false) {"Sound is On"} else {"Sound is Off"}
+            onClicked: sfx.mute()
+        }
+
+        SliderVPlay {
+            id: sliderSFX
+            anchors.left: buttonSFX.left
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            anchors.right: buttonSFX.right
+            maximumValue: 1.0
+            minimumValue: 0.0
+            value: sfx.realVolume
+            onValueChanged: { sfx.realVolume = value; sfx.adjustVolume() }
         }
     }
 }

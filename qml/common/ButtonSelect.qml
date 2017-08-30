@@ -3,8 +3,8 @@ import QtQuick 2.0
 Rectangle {
     id: button
 
-    width: buttonText.width+ paddingHorizontal*2
-    height: buttonText.height+ paddingVertical*2
+    width: (gridLevels.width / 3) - (gridLevels.spacing * 2)
+    height: (gridLevels.height / 4) - (gridLevels.spacing * 3)
 
     color: "#060942" //Dark Blue
     radius: 8
@@ -16,6 +16,7 @@ Rectangle {
     property alias bgColor: button.color
     property alias text: buttonText.text
     property alias fgColor: buttonText.color
+    property alias font: buttonText.font
 
     signal clicked
 

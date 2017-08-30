@@ -3,6 +3,12 @@ import VPlay 2.0
 
 Item {
     property bool boolMuted: false
+    property real realVolume: 0.3
+
+    function adjustVolume() {
+        bgmMenu.volume = realVolume
+        bgmLevel01.volume = realVolume
+    }
 
     function mute() {
         if (boolMuted === false) {
@@ -36,11 +42,15 @@ Item {
         id: bgmLevel01
         source: "../../assets/snd/music/level1.wav"
         autoPlay: false
+
+        volume: realVolume
     }
 
     BackgroundMusic {
         id: bgmMenu
         source: "../../assets/snd/music/menu.wav"
         autoPlay: true
+
+        volume: realVolume
     }
 }

@@ -4,7 +4,7 @@ import "../common"
 
 TargetBase {
     entityType: "fast"
-    imageSrc: "../../assets/img/bullseye.png"
+    imageSrc: "../../assets/img/fast.png"
 
     property int totalSpeed: Math.floor((Math.random() * 150) + 10) // Determine random speed for object.
     property int percentageAxis: Math.floor((Math.random() * 100) + 1) // Set a course with a random value between Horizontal and Vertical.

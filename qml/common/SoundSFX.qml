@@ -3,6 +3,12 @@ import VPlay 2.0
 
 Item {
     property bool boolMuted: false
+    property real realVolume: 0.6
+
+    function adjustVolume() {
+        sfxTargetExplosion.volume = realVolume
+        sfxWeaponFire01.volume = realVolume
+    }
 
     function mute() {
         if (boolMuted === false) {
@@ -29,12 +35,16 @@ Item {
         id: sfxWeaponFire01
         source: "../../assets/snd/sfx/weaponFire01.wav"
         loops: 1
+
+        volume: realVolume
     }
 
     SoundEffectVPlay {
         id: sfxTargetExplosion
         source: "../../assets/snd/sfx/explosion.wav"
         loops: 1
+
+        volume: realVolume
     }
 
     Timer {
