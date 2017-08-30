@@ -22,16 +22,16 @@ Item {
         }
     }
 
-    function level01() {
-        if (bgmLevel01.playing === false) {
+    function level01(stateOn) {
+        if (stateOn === true) {
             bgmLevel01.play()
         } else {
             bgmLevel01.stop()
         }
     }
 
-    function menu() {
-        if (bgmMenu.playing === false) {
+    function menu(stateOn) {
+        if (stateOn === true) {
             bgmMenu.play()
         } else {
             bgmMenu.stop()
@@ -40,7 +40,7 @@ Item {
 
     BackgroundMusic {
         id: bgmLevel01
-        source: "../../assets/snd/music/level1.wav"
+        source: "../../assets/snd/music/level01.wav"
         autoPlay: false
 
         volume: realVolume

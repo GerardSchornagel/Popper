@@ -49,7 +49,7 @@ Scene {
             id: buttonBGM
             anchors.horizontalCenter: parent.horizontalCenter
             text: if (bgm.boolMuted === false) {"Music is On"} else {"Music is Off"}
-            onClicked: bgm.mute()
+            onClicked: { bgm.mute(); offlineStorage.setValue(bgmMute, bgm.boolMuted) }
         }
 
         SliderVPlay {
@@ -61,7 +61,7 @@ Scene {
             maximumValue: 1.0
             minimumValue: 0.0
             value: bgm.realVolume
-            onValueChanged: { bgm.realVolume = value; bgm.adjustVolume() }
+            onValueChanged: { bgm.realVolume = value; bgm.adjustVolume(); offlineStorage.setValue(bgmVolume, bgm.realVolume) }
         }
 
         ButtonMenu {

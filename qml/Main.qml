@@ -45,15 +45,15 @@ GameWindow {
 
     }
 
-    //Storage { id: offlineStorage }
+    Storage { id: offlineStorage }
 
     // game scene to play a level
     SceneGame {
         id: sceneGame
         onBackButtonPressed: {
             window.state = "menu"
-            bgm.level01()
-            bgm.menu()
+            bgm.level01(false)
+            bgm.menu(true)
         }
     }
 
@@ -63,8 +63,8 @@ GameWindow {
 
         onSignalNewGame: {
             window.state = "game"
-            bgm.menu()
-            bgm.level01()
+            bgm.menu(false)
+            bgm.level01(true)
         }
     }
 
