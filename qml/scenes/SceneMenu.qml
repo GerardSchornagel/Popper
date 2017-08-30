@@ -61,7 +61,7 @@ Scene {
             maximumValue: 1.0
             minimumValue: 0.0
             value: bgm.realVolume
-            onValueChanged: { bgm.realVolume = value; bgm.adjustVolume(); offlineStorage.setValue(bgmVolume, bgm.realVolume) }
+            onValueChanged: { bgm.realVolume = value; bgm.adjustVolume(); offlineStorage.setValue("bgmVolume", bgm.realVolume) }
         }
 
         ButtonMenu {
