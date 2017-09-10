@@ -64,5 +64,5 @@ EntityBase {
             parent.horizontalSpeed = (parent.percentageAxis / 100) * parent.totalSpeed // Match horizontalSpeed to percentageAxis.
             parent.verticalSpeed = ((100 - parent.percentageAxis) / 100) * parent.totalSpeed // 100% minus percentageAxis makes the verticalSpeed.
         }
-    }
+    }w
 }
