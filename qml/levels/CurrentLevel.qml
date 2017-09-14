@@ -34,7 +34,6 @@ Item {
             arrayEncounters = level04.arrayEntityType
             intGoal = level04.intGoal
             intSpeed = level04.intSpeed
-             }
-
+        }
     }
 }
